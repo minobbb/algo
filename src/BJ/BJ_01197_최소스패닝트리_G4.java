@@ -1,4 +1,4 @@
-package SWEA;
+package BJ;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -6,7 +6,9 @@ import java.io.InputStreamReader;
 import java.util.Arrays;
 import java.util.StringTokenizer;
 
-public class Solution_SWEA_3124_최소스패닝트리 {
+// 크루스칼 알고리즘 기본 문제
+// 48548kb, 592ms
+public class BJ_01197_최소스패닝트리_G4 {
 
 	static class Edge implements Comparable<Edge> {
 		int from, to, weight;
@@ -27,43 +29,36 @@ public class Solution_SWEA_3124_최소스패닝트리 {
 	static int V, E;
 	static int[] parents;
 	static Edge[] edgeList;
-	
+
 	public static void main(String[] args) throws IOException {
 		BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
-		StringBuilder sb = new StringBuilder();
-		StringTokenizer st = null;
-		int T = Integer.parseInt(in.readLine());
+		StringTokenizer st = new StringTokenizer(in.readLine());
+		V = Integer.parseInt(st.nextToken()); // 정점의 개수
+		E = Integer.parseInt(st.nextToken()); // 간선의 개수
 
-		for (int tc = 1; tc <= T; tc++) {
+		edgeList = new Edge[E];
+
+		for (int i = 0; i < E; i++) {
 			st = new StringTokenizer(in.readLine());
-			V = Integer.parseInt(st.nextToken()); // 정점의 개수
-			E = Integer.parseInt(st.nextToken()); // 간선의 개수
-			edgeList = new Edge[E];
-
-			for (int i = 0; i < E; i++) {
-				st = new StringTokenizer(in.readLine());
-				int from = Integer.parseInt(st.nextToken());
-				int to = Integer.parseInt(st.nextToken());
-				int weight = Integer.parseInt(st.nextToken());
-				edgeList[i] = new Edge(from, to, weight);
-			}
-
-			Arrays.sort(edgeList); // 간선 비용 오름차순 정렬
-			makeSet();
-			
-			long result = 0;
-			int cnt = 0;
-			
-			for(Edge edge: edgeList) {
-				if (union(edge.from, edge.to)) {
-					result += edge.weight;
-					if (++cnt == V - 1) break;
-				}
-			}
-			sb.append("#").append(tc).append(" ").append(result).append("\n");
+			int from = Integer.parseInt(st.nextToken());
+			int to = Integer.parseInt(st.nextToken());
+			int weight = Integer.parseInt(st.nextToken());
+			edgeList[i] = new Edge(from, to, weight);
 		}
-		System.out.println(sb);
 		
+		Arrays.sort(edgeList); // 간선 비용 오름차순 정렬
+		makeSet();
+
+		int result = 0, cnt = 0;
+		
+		for(Edge edge: edgeList) {
+			if (union(edge.from, edge.to)) {
+				result += edge.weight;
+				if (++cnt == V - 1) break;
+			}
+		}
+		
+		System.out.println(result);
 	}
 
 	private static boolean union(int a, int b) {
@@ -71,7 +66,7 @@ public class Solution_SWEA_3124_최소스패닝트리 {
 		int bRoot = findSet(b);
 		if (aRoot == bRoot) // 대표자가 같다면 (사이클이 생긴다면)
 			return false;
-
+		
 		parents[bRoot] = aRoot; // 대표자 변경
 		return true;
 	}
@@ -88,4 +83,5 @@ public class Solution_SWEA_3124_최소스패닝트리 {
 			parents[i] = i;
 		}
 	}
+
 }

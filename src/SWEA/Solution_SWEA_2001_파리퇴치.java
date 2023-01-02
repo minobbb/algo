@@ -1,4 +1,4 @@
-package com.ssafy.homework;
+package SWEA;
 
 import java.io.BufferedReader;
 import java.io.IOException;
